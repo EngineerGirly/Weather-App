@@ -1,5 +1,6 @@
-// work on get device location button, will need to retrieve lon and lat cordinates for api fetch
-// start working on displaying weather info after a valid city has been entered 
+
+// work on arrow to return to search screen after weather data has been displayed for a valid city
+// need to work on displaying the appropriate weather icon. (use weather codes returned with object, check documentation)
 
 
 const wrapper = document.querySelector(".wrapper"),
@@ -67,21 +68,21 @@ function weatherDetails(info) {
         infoTxt.innerText = info.error.message;
     }
     else {
-       /* // grabbing values from api weather object
+        // grabbing values from api weather object
         const city = info.location.name;
-        const country = info.location.country;
-        const description = info.current.condition[2];
+        const state = info.location.region;
+        const description = info.current.condition.text;
         const feelsLike = info.current.feelslike_f;
         const humidity = info.current.humidity;
         const temp = info.current.temp_f;
 
         // setting above values to the corresponding html elements
-        wrapper.querySelector(".number") = temp;
-        wrapper.querySelector(".location span") = city;
-        // wrapper.querySelector("") = country;
-        wrapper.querySelector(".weather") = description;
-        wrapper.querySelector(".number-2") = feelsLike;
-        wrapper.querySelector(".humidity.details span") = humidity; **/
+        wrapper.querySelector(".location span").innerText = `${city}, ${state}`;
+        wrapper.querySelector(".weather").innerText = description;
+        wrapper.querySelector(".number-2").innerText = feelsLike;
+        wrapper.querySelector(".humidity span").innerText = `${humidity}%`;
+        wrapper.querySelector(".number").innerText = temp; 
+
 
         infoTxt.classList.remove("pending", "error");
         wrapper.classList.add("active");
