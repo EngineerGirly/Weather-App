@@ -212,3 +212,7 @@ header i {
 .copyright {
     margin-top: 10vh;
 }
+
+a {
+    color: #000;
+}
