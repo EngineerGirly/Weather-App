@@ -1,21 +1,21 @@
-
-// work on arrow to return to search screen after weather data has been displayed for a valid city
-// need to work on displaying the appropriate weather icon. (use weather codes returned with object, check documentation)
-
-
+    /* Assigning specific dom elements to variables 
+        for an easier scripting experience */
 const wrapper = document.querySelector(".wrapper"),
 inputPart = wrapper.querySelector(".input-part"),
 infoTxt = inputPart.querySelector(".info-txt"),
 inputField = inputPart.querySelector("input"),
 arrow = wrapper.querySelector("header i"),
 locationBtn = inputPart.querySelector("button");
-
 let url = '';
 
+      /******************** EVENT LISTENERS ********************/
+
+// on click e.l on the arrow icon that removes the active class with a display property value of none
 arrow.addEventListener("click", () => {
     wrapper.classList.remove("active");
 });
 
+// keyup e.l on the enter keyboard key that first checks if key pressed is the enter key and the text area is not blank/empty, then calls the initial fetch request to weatherapi.com  
 inputField.addEventListener("keyup", e => {
     // if user presses enter and the input field is not empty
     if (e.key == "Enter" && inputField.value != "") {
@@ -23,6 +23,7 @@ inputField.addEventListener("keyup", e => {
     }
 });
 
+// on click e.l placed on the button element which enables the geolocation api call if user accepts and browser is supported
 locationBtn.addEventListener("click", ()=> {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(onSuccess, onError)
@@ -33,25 +34,32 @@ locationBtn.addEventListener("click", ()=> {
 
 });
 
+      /******************** EVENT LISTENERS ********************/
+
+// onError callback function for the geolocation api fetch and eventlistener
 function onError(error) {
     infoTxt.innerText = error.message;
     infoTxt.classList.add("error")
 }
 
+// onSuccess callback function for the geolocation api fetch and eventlistener
 function onSuccess(position) {
     //getting longitude and lat of user device from coords object
-    console.log(position)
     const {latitude, longitude} = position.coords;
+    //reassigning url variable to custom api link to fetch using lat and long coordinates
     url = `https://api.weatherapi.com/v1/current.json?key=48652c7f4b124a759e0103923241402&q=${latitude},${longitude}&aqi=no`;
     fetchData();
 }
 
-
+// callback function for keyup e.l
 function requestApi(city) {
+    // query parameter for the fetch request becomes the city value
     url = `https://api.weatherapi.com/v1/current.json?key=48652c7f4b124a759e0103923241402&q=${city}&aqi=yes`;
+    // function call for 
     fetchData();
 }
 
+// function designed to fetch and manipulate some style in the dom as the fetch occurs
 function fetchData() {
     infoTxt.innerText = "Getting weather details.."
     infoTxt.classList.add("pending")
@@ -59,6 +67,7 @@ function fetchData() {
     fetch(url)
       .then(res => res.json())
       .then(data => {
+        // passes return api object as a parameter
         weatherDetails(data)
       })
       .catch(err => {
@@ -66,11 +75,14 @@ function fetchData() {
       });
 }
 
+// callback function used in the fetchData function
 function weatherDetails(info) {
+    // if input field was invalid / a non-existet city, classlist is replaced to manipulate dom visual and innertext is replaced to the error message from api obj
     if (info.error) {
         infoTxt.classList.replace("pending", "error")
         infoTxt.innerText = info.error.message;
     }
+    // if a valid city is entered and fetch returns a valid obj
     else {
         // grabbing values from api weather object
         const city = info.location.name;
@@ -87,6 +99,8 @@ function weatherDetails(info) {
         wrapper.querySelector(".humidity span").innerText = `${humidity}%`;
         wrapper.querySelector(".number").innerText = temp; 
 
+        // if / if-else statements that sets src to the img tag based on code property from api obj
+        // statements can deifnitely be simplified, do later
         if (info.current.condition.code === 1000) {
             wrapper.querySelector('img').src = 'Weather Icons/clear.svg'
         }
@@ -109,6 +123,6 @@ function weatherDetails(info) {
         infoTxt.classList.remove("pending", "error");
         wrapper.classList.add("active");
 
-        console.log(info)
+        // console.log(info)
     }
 }
