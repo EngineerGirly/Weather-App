@@ -12,6 +12,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     min-height: 100vh;
     background: lightskyblue;
 }
@@ -206,4 +207,8 @@ header i {
 .details p {
     font-size: 14px;
     margin-top: -6px;
+}
+
+.copyright {
+    margin-top: 10vh;
 }
