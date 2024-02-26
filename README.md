@@ -1,6 +1,6 @@
 <h1>API Weather App</h1>
 
-<p>A web app utilizing a Weather <a href="https://weatherapi.com">API</a> to display current weather information</p>
+<p>A web app utilizing a Weather <a href="https://www.weatherapi.com/">API</a> to display current weather information</p>
 <figure>
    <img src="https://github.com/EngineerGirly/Weather-App/blob/main/demo.gif" alt="Weather App Demo" />
 </figure>
